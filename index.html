@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="FireGuard - Sistema de coordinación de emergencia para incendios forestales. Detecta, coordina y protege comunidades vulnerables." />
+  <meta name="theme-color" content="#0a0a0f" />
+  <title>FireGuard — Coordinación de Emergencia</title>
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- Offline indicator -->
+  <div id="offline-banner" class="offline-banner hidden">
+    <span>📡 Sin conexión — Modo offline activo</span>
+  </div>
+
+  <!-- Header -->
+  <header id="app-header" class="app-header">
+    <div class="header-left">
+      <div class="logo">
+        <span class="logo-icon">🛡️🔥</span>
+        <h1>FireGuard</h1>
+      </div>
+      <span class="header-subtitle">Coordinación de Emergencia</span>
+    </div>
+    <div class="header-right">
+      <div class="live-badge" id="live-badge">
+        <span class="live-dot"></span>
+        EN VIVO
+      </div>
+      <div class="metrics-mini">
+        <span id="metric-fires" class="metric-pill metric-danger" title="Focos activos">🔥 <strong>--</strong></span>
+        <span id="metric-help" class="metric-pill metric-success" title="Puntos de ayuda">🟢 <strong>--</strong></span>
+        <span id="metric-people" class="metric-pill metric-warning" title="Personas registradas">👥 <strong>--</strong></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main layout -->
+  <main id="app-main" class="app-main">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar">
+      <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle sidebar">☰</button>
+      
+      <div class="sidebar-content">
+        <!-- Fires section -->
+        <section class="sidebar-section">
+          <h2 class="section-title">
+            <span>🔥 Focos Activos</span>
+            <span id="fires-count" class="badge badge-danger">0</span>
+          </h2>
+          <div id="fires-list" class="item-list">
+            <p class="list-empty">Cargando datos satelitales...</p>
+          </div>
+        </section>
+
+        <!-- Help points section -->
+        <section class="sidebar-section">
+          <h2 class="section-title">
+            <span>🆘 Puntos de Ayuda</span>
+            <span id="help-count" class="badge badge-success">0</span>
+          </h2>
+          <div id="help-list" class="item-list">
+            <p class="list-empty">Sin puntos registrados</p>
+          </div>
+          <button id="btn-add-help" class="btn btn-primary btn-block">
+            <span>➕</span> Registrar Punto de Ayuda
+          </button>
+        </section>
+
+        <!-- Vulnerable people section -->
+        <section class="sidebar-section">
+          <h2 class="section-title">
+            <span>👥 Personas Vulnerables</span>
+            <span id="people-count" class="badge badge-warning">0</span>
+          </h2>
+          <div id="people-list" class="item-list">
+            <p class="list-empty">Sin personas registradas</p>
+          </div>
+          <button id="btn-add-person" class="btn btn-secondary btn-block">
+            <span>➕</span> Registrar Persona
+          </button>
+        </section>
+      </div>
+    </aside>
+
+    <!-- Map container -->
+    <div id="map" class="map-container"></div>
+
+    <!-- Fire detail panel (appears when clicking a fire marker) -->
+    <div id="fire-detail" class="detail-panel hidden">
+      <button id="close-detail" class="detail-close">&times;</button>
+      <h3 id="detail-title" class="detail-title">Foco de Incendio</h3>
+      <div class="detail-grid">
+        <div class="detail-item">
+          <span class="detail-label">Riesgo</span>
+          <span id="detail-risk" class="detail-value badge-lg">--</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Temperatura</span>
+          <span id="detail-temp" class="detail-value">--°C</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Humedad</span>
+          <span id="detail-humidity" class="detail-value">--%</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Viento</span>
+          <span id="detail-wind" class="detail-value">-- km/h</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Confianza</span>
+          <span id="detail-confidence" class="detail-value">--%</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Satélite</span>
+          <span id="detail-satellite" class="detail-value">--</span>
+        </div>
+      </div>
+      <button id="btn-alert-zone" class="btn btn-danger btn-block">
+        📢 Enviar Alerta a esta Zona
+      </button>
+    </div>
+  </main>
+
+  <!-- Modal: Add help point -->
+  <div id="modal-help" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content glass-card">
+      <div class="modal-header">
+        <h2>🆘 Registrar Punto de Ayuda</h2>
+        <button class="modal-close" data-modal="modal-help">&times;</button>
+      </div>
+      <form id="form-help" class="modal-form">
+        <div class="form-group">
+          <label for="help-name">Nombre del punto</label>
+          <input type="text" id="help-name" placeholder="Ej: Olla Común Los Aromos" required />
+        </div>
+        <div class="form-group">
+          <label for="help-type">Tipo</label>
+          <select id="help-type" required>
+            <option value="">Seleccionar...</option>
+            <option value="olla">🍲 Olla Común</option>
+            <option value="acopio">📦 Centro de Acopio</option>
+            <option value="albergue">🏠 Albergue</option>
+            <option value="salud">🏥 Punto de Salud</option>
+            <option value="agua">💧 Punto de Agua</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="help-address">Dirección</label>
+          <input type="text" id="help-address" placeholder="Ej: Calle Principal 432" />
+        </div>
+        <div class="form-group">
+          <label for="help-schedule">Horario</label>
+          <input type="text" id="help-schedule" placeholder="Ej: 8:00 - 20:00" />
+        </div>
+        <div class="form-group">
+          <label for="help-contact">Contacto</label>
+          <input type="tel" id="help-contact" placeholder="+56 9 1234 5678" />
+        </div>
+        <p class="form-hint">📍 Haz clic en el mapa para marcar la ubicación</p>
+        <input type="hidden" id="help-lat" />
+        <input type="hidden" id="help-lng" />
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" data-modal="modal-help">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar Punto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Add vulnerable person -->
+  <div id="modal-person" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content glass-card">
+      <div class="modal-header">
+        <h2>👥 Registrar Persona Vulnerable</h2>
+        <button class="modal-close" data-modal="modal-person">&times;</button>
+      </div>
+      <form id="form-person" class="modal-form">
+        <div class="form-group">
+          <label for="person-name">Nombre</label>
+          <input type="text" id="person-name" placeholder="Ej: Don Julio Pérez" required />
+        </div>
+        <div class="form-group">
+          <label for="person-age">Edad aproximada</label>
+          <input type="number" id="person-age" placeholder="75" min="0" max="120" />
+        </div>
+        <div class="form-group">
+          <label for="person-address">Dirección / Referencia</label>
+          <input type="text" id="person-address" placeholder="Ej: Casa azul al final de calle Los Pinos" />
+        </div>
+        <div class="form-group">
+          <label for="person-needs">Necesidades especiales</label>
+          <textarea id="person-needs" rows="2" placeholder="Ej: Silla de ruedas, medicamentos diarios, oxígeno"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="person-contact">Contacto familiar</label>
+          <input type="tel" id="person-contact" placeholder="+56 9 1234 5678" />
+        </div>
+        <div class="form-group">
+          <label for="person-status">Estado</label>
+          <select id="person-status">
+            <option value="sin_visitar">🔴 Sin visitar</option>
+            <option value="en_camino">🟡 En camino</option>
+            <option value="visitado">🟢 Visitado</option>
+            <option value="necesita_ayuda">🔴 Necesita más ayuda</option>
+          </select>
+        </div>
+        <p class="form-hint">📍 Haz clic en el mapa para marcar la ubicación</p>
+        <input type="hidden" id="person-lat" />
+        <input type="hidden" id="person-lng" />
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" data-modal="modal-person">Cancelar</button>
+          <button type="submit" class="btn btn-secondary">Registrar Persona</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Send Alert -->
+  <div id="modal-alert" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content glass-card">
+      <div class="modal-header">
+        <h2>📢 Enviar Alerta SMS</h2>
+        <button class="modal-close" data-modal="modal-alert">&times;</button>
+      </div>
+      <form id="form-alert" class="modal-form">
+        <div class="form-group">
+          <label for="alert-phone">Número de teléfono</label>
+          <input type="tel" id="alert-phone" placeholder="+56912345678" required />
+        </div>
+        <div class="form-group">
+          <label for="alert-message">Mensaje</label>
+          <textarea id="alert-message" rows="4" required>FireGuard: Hay un incendio activo cerca de su zona. Manténgase alerta y diríjase al punto de ayuda más cercano.</textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" data-modal="modal-alert">Cancelar</button>
+          <button type="submit" class="btn btn-danger">📤 Enviar Alerta</button>
+        </div>
+      </form>
+      <div id="alert-status" class="alert-status hidden"></div>
+    </div>
+  </div>
+
+  <!-- Floating action button -->
+  <button id="fab-alert" class="fab" title="Enviar alerta de emergencia">
+    📢
+  </button>
+
+  <!-- Toast container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

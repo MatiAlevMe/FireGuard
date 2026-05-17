@@ -35,7 +35,7 @@ export async function loadFireData() {
     // FIRMS API: area/csv/{MAP_KEY}/{source}/{area}/{days}
     // source: VIIRS_SNPP for best resolution
     const area = `${CHILE_BBOX.west},${CHILE_BBOX.south},${CHILE_BBOX.east},${CHILE_BBOX.north}`;
-    const url = `${FIRMS_BASE_URL}/${MAP_KEY}/VIIRS_SNPP/${area}/1`;
+    const url = `${FIRMS_BASE_URL}/${MAP_KEY}/VIIRS_SNPP/${area}/3`;
 
     const response = await fetch(url);
     
@@ -227,7 +227,7 @@ function updateFiresList() {
       <span class="list-item-icon">🔥</span>
       <div class="list-item-content">
         <div class="list-item-name">${fire.lat.toFixed(3)}, ${fire.lng.toFixed(3)}</div>
-        <div class="list-item-detail">${fire.temperature}°C | ${fire.windSpeed} km/h | ${fire.satellite}</div>
+        <div class="list-item-detail">🌡️ ${fire.temperature}°C &nbsp; 💧 ${fire.humidity}% &nbsp; 💨 ${fire.windSpeed} km/h</div>
       </div>
       <span class="list-item-badge">
         <span class="badge" style="background: ${fire.riskColor}25; color: ${fire.riskColor}">${fire.riskLevel}</span>

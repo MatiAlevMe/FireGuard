@@ -38,6 +38,9 @@
         <span id="metric-help" class="metric-pill metric-success" title="Puntos de ayuda">🟢 <strong>--</strong></span>
         <span id="metric-people" class="metric-pill metric-warning" title="Personas registradas">👥 <strong>--</strong></span>
       </div>
+      <button id="fab-alert" class="btn btn-danger btn-sm" style="margin-left: 1rem; border-radius: 8px;">
+        📢 Enviar Alerta SMS
+      </button>
     </div>
   </header>
 
@@ -164,7 +167,9 @@
           <label for="help-contact">Contacto</label>
           <input type="tel" id="help-contact" placeholder="+56 9 1234 5678" />
         </div>
-        <p class="form-hint">📍 Haz clic en el mapa para marcar la ubicación</p>
+        <button type="button" class="btn btn-outline" id="btn-mark-map-help" style="width: 100%; margin-bottom: 1rem; display:flex; justify-content:center; gap:0.5rem; align-items:center;">
+          📍 Marcar en el mapa
+        </button>
         <input type="hidden" id="help-lat" />
         <input type="hidden" id="help-lng" />
         <div class="form-actions">
@@ -213,7 +218,9 @@
             <option value="necesita_ayuda">🔴 Necesita más ayuda</option>
           </select>
         </div>
-        <p class="form-hint">📍 Haz clic en el mapa para marcar la ubicación</p>
+        <button type="button" class="btn btn-outline" id="btn-mark-map-person" style="width: 100%; margin-bottom: 1rem; display:flex; justify-content:center; gap:0.5rem; align-items:center;">
+          📍 Marcar en el mapa
+        </button>
         <input type="hidden" id="person-lat" />
         <input type="hidden" id="person-lng" />
         <div class="form-actions">
@@ -250,10 +257,7 @@
     </div>
   </div>
 
-  <!-- Floating action button -->
-  <button id="fab-alert" class="fab" title="Enviar alerta de emergencia">
-    📢
-  </button>
+
 
   <!-- Toast container -->
   <div id="toast-container" class="toast-container"></div>

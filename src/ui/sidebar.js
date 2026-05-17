@@ -38,12 +38,14 @@ export function initUI() {
         showToast(`📍 Ubicación marcada: ${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}`, 'success');
         state.placingMarker = null;
         map.getContainer().style.cursor = '';
+        document.getElementById('modal-help')?.classList.remove('hidden');
       } else if (state.placingMarker === 'person') {
         document.getElementById('person-lat').value = e.latlng.lat;
         document.getElementById('person-lng').value = e.latlng.lng;
         showToast(`📍 Ubicación marcada: ${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}`, 'success');
         state.placingMarker = null;
         map.getContainer().style.cursor = '';
+        document.getElementById('modal-person')?.classList.remove('hidden');
       }
     });
   }

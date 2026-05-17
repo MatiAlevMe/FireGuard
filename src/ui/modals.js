@@ -10,7 +10,10 @@ export function initModals() {
   // Open modals
   document.getElementById('btn-add-help')?.addEventListener('click', () => {
     openModal('modal-help');
-    // Enable map click placement
+  });
+
+  document.getElementById('btn-mark-map-help')?.addEventListener('click', () => {
+    closeModal('modal-help');
     state.placingMarker = 'help';
     const map = getMap();
     if (map) map.getContainer().style.cursor = 'crosshair';
@@ -18,6 +21,10 @@ export function initModals() {
 
   document.getElementById('btn-add-person')?.addEventListener('click', () => {
     openModal('modal-person');
+  });
+
+  document.getElementById('btn-mark-map-person')?.addEventListener('click', () => {
+    closeModal('modal-person');
     state.placingMarker = 'person';
     const map = getMap();
     if (map) map.getContainer().style.cursor = 'crosshair';

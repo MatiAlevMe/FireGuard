@@ -26,6 +26,7 @@ export function initMap() {
     zoom: CHILE_ZOOM,
     zoomControl: true,
     attributionControl: true,
+    closePopupOnClick: false, // Prevents popups from closing automatically when map is clicked
   });
 
   L.tileLayer(DARK_TILES, {

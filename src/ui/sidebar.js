@@ -25,7 +25,6 @@ export function initUI() {
     const map = getMap();
     if (map) {
       map.setView([lat, lng], 12);
-      setTimeout(() => openFirePopup(lat, lng), 300);
     }
     
     // Sort array identically to how it was rendered
@@ -41,7 +40,6 @@ export function initUI() {
     const map = getMap();
     if (map) {
       map.setView([lat, lng], 14);
-      setTimeout(() => openHelpPopup(lat, lng), 300);
     }
   });
 
@@ -51,7 +49,6 @@ export function initUI() {
     const map = getMap();
     if (map) {
       map.setView([lat, lng], 14);
-      setTimeout(() => openPersonPopup(lat, lng), 300);
     }
   });
 

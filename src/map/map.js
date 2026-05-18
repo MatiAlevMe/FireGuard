@@ -118,7 +118,7 @@ export function createHelpMarker(lat, lng, data) {
 
   const icon = L.divIcon({
     className: 'help-marker',
-    html: typeIcons[data.type] || '🆘',
+    html: `<span class="marker-icon-inner">${typeIcons[data.type] || '🆘'}</span>`,
     iconSize: [32, 32],
     iconAnchor: [16, 16],
   });
@@ -156,7 +156,7 @@ export function createPersonMarker(lat, lng, data) {
 
   const icon = L.divIcon({
     className: 'person-marker',
-    html: '👤',
+    html: '<span class="marker-icon-inner">👤</span>',
     iconSize: [28, 28],
     iconAnchor: [14, 14],
   });

@@ -41,6 +41,9 @@
       <button id="fab-alert" class="btn btn-danger btn-sm" style="margin-left: 1rem; border-radius: 8px;">
         📢 Enviar Alerta SMS
       </button>
+      <button id="btn-view-logs" class="btn btn-outline btn-sm" style="margin-left: 0.5rem; border-radius: 8px;" title="Ver registro de alertas">
+        📔 Logs (<span id="metric-logs-count">0</span>)
+      </button>
     </div>
   </header>
 
@@ -160,8 +163,12 @@
           <input type="text" id="help-address" placeholder="Ej: Calle Principal 432" />
         </div>
         <div class="form-group">
-          <label for="help-schedule">Horario</label>
-          <input type="text" id="help-schedule" placeholder="Ej: 8:00 - 20:00" />
+          <label>Horario</label>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <input type="time" id="help-schedule-start" style="flex:1;" />
+            <span>-</span>
+            <input type="time" id="help-schedule-end" style="flex:1;" />
+          </div>
         </div>
         <div class="form-group">
           <label for="help-contact">Contacto</label>
@@ -254,6 +261,22 @@
         </div>
       </form>
       <div id="alert-status" class="alert-status hidden"></div>
+    </div>
+  </div>
+
+  <!-- Modal: Logs -->
+  <div id="modal-logs" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content glass-card">
+      <div class="modal-header">
+        <h2>📔 Registro de Alertas SMS</h2>
+        <button class="modal-close" data-modal="modal-logs">&times;</button>
+      </div>
+      <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
+        <div id="logs-list" class="item-list">
+          <p class="list-empty">No hay alertas enviadas</p>
+        </div>
+      </div>
     </div>
   </div>
 

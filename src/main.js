@@ -16,6 +16,7 @@ export const state = {
   helpPoints: [],
   people: [],
   alertsSent: 0,
+  alertsLog: [],
   isOnline: navigator.onLine,
   placingMarker: null, // 'help' | 'person' | null
 };
@@ -70,12 +71,17 @@ function loadSavedData() {
   try {
     const savedHelp = localStorage.getItem('fireguard_help');
     const savedPeople = localStorage.getItem('fireguard_people');
+    const savedLogs = localStorage.getItem('fireguard_logs');
 
     if (savedHelp) {
       state.helpPoints = JSON.parse(savedHelp);
     }
     if (savedPeople) {
       state.people = JSON.parse(savedPeople);
+    }
+    if (savedLogs) {
+      state.alertsLog = JSON.parse(savedLogs);
+      state.alertsSent = state.alertsLog.length;
     }
   } catch (e) {
     console.warn('Could not load saved data:', e);
@@ -86,6 +92,7 @@ export function saveData() {
   try {
     localStorage.setItem('fireguard_help', JSON.stringify(state.helpPoints));
     localStorage.setItem('fireguard_people', JSON.stringify(state.people));
+    localStorage.setItem('fireguard_logs', JSON.stringify(state.alertsLog));
   } catch (e) {
     console.warn('Could not save data:', e);
   }

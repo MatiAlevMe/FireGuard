@@ -223,7 +223,7 @@ function updateFiresList() {
   const sorted = [...state.fires].sort((a, b) => b.riskScore - a.riskScore);
 
   list.innerHTML = sorted.slice(0, 20).map((fire, idx) => `
-    <div class="list-item" data-fire-idx="${idx}" onclick="document.dispatchEvent(new CustomEvent('focus-fire', {detail: {lat: ${fire.lat}, lng: ${fire.lng}}}))">
+    <div class="list-item" data-fire-idx="${idx}" onclick="document.dispatchEvent(new CustomEvent('focus-fire', {detail: {idx: ${idx}, lat: ${fire.lat}, lng: ${fire.lng}}}))">
       <span class="list-item-icon">🔥</span>
       <div class="list-item-content">
         <div class="list-item-name">${fire.lat.toFixed(3)}, ${fire.lng.toFixed(3)}</div>

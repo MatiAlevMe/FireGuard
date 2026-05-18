@@ -36,6 +36,11 @@ export function initMap() {
   helpLayer = L.layerGroup().addTo(map);
   peopleLayer = L.layerGroup().addTo(map);
 
+  // Fix map sizing issues
+  setTimeout(() => {
+    map.invalidateSize();
+  }, 100);
+
   return map;
 }
 
@@ -169,7 +174,7 @@ export function createPersonMarker(lat, lng, data) {
 /**
  * Show fire detail in the side panel
  */
-function showFireDetail(data) {
+export function showFireDetail(data) {
   const panel = document.getElementById('fire-detail');
   panel.classList.remove('hidden');
 

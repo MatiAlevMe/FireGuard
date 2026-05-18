@@ -57,11 +57,15 @@ export function initModals() {
       return;
     }
 
+    const scheduleStart = document.getElementById('help-schedule-start').value;
+    const scheduleEnd = document.getElementById('help-schedule-end').value;
+    const schedule = (scheduleStart && scheduleEnd) ? `${scheduleStart} - ${scheduleEnd}` : '';
+
     const data = {
       name: document.getElementById('help-name').value,
       type: document.getElementById('help-type').value,
       address: document.getElementById('help-address').value,
-      schedule: document.getElementById('help-schedule').value,
+      schedule: schedule,
       contact: document.getElementById('help-contact').value,
       lat,
       lng,

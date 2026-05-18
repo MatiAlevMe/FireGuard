@@ -45,7 +45,19 @@ export function initAlerts() {
         statusEl.classList.add('success');
       }
 
-      state.alertsSent++;
+      const logEntry = {
+        date: new Date().toLocaleString(),
+        phone,
+        message,
+        status: !ZAVU_API_KEY ? 'Demo/Sandbox' : 'Enviado'
+      };
+      state.alertsLog.push(logEntry);
+      state.alertsSent = state.alertsLog.length;
+      
+      const { saveData } = await import('../main.js');
+      saveData();
+      renderLogs();
+
       showToast(`📤 Alerta enviada a ${phone}`, 'success');
 
       // Close modal after 2 seconds
@@ -62,6 +74,33 @@ export function initAlerts() {
       showToast('❌ Error al enviar alerta', 'error');
     }
   });
+
+  document.getElementById('btn-view-logs')?.addEventListener('click', () => {
+    renderLogs();
+    const modal = document.getElementById('modal-logs');
+    if (modal) modal.classList.remove('hidden');
+  });
+}
+
+function renderLogs() {
+  const list = document.getElementById('logs-list');
+  const countEl = document.getElementById('metric-logs-count');
+  if (countEl) countEl.textContent = state.alertsLog.length;
+
+  if (state.alertsLog.length === 0) {
+    if (list) list.innerHTML = '<p class="list-empty">No hay alertas enviadas</p>';
+    return;
+  }
+
+  if (list) {
+    list.innerHTML = state.alertsLog.slice().reverse().map(log => `
+      <div class="list-item" style="display:flex; flex-direction:column; align-items:flex-start; padding: 1rem; gap: 0.5rem; background: var(--bg-tertiary); border-radius: 8px; margin-bottom: 0.5rem;">
+        <div style="font-size: 0.8rem; color: var(--text-muted);">${log.date} — <span style="color:var(--accent-teal)">${log.status}</span></div>
+        <div style="font-weight: bold;">📞 ${log.phone}</div>
+        <div style="font-size: 0.9rem; font-style: italic;">"${log.message}"</div>
+      </div>
+    `).join('');
+  }
 }
 
 /**

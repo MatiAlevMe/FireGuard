@@ -519,8 +519,12 @@ body {
   background: var(--bg-elevated);
   border: 2px solid var(--accent-success);
   border-radius: var(--radius-sm);
-  font-size: 18px;
+  font-size: 16px;
+  line-height: 1;
   box-shadow: var(--shadow-sm);
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
 }
 
 /* Person marker */
@@ -533,8 +537,12 @@ body {
   background: var(--bg-elevated);
   border: 2px solid var(--accent-warning);
   border-radius: 50%;
-  font-size: 14px;
+  font-size: 13px;
+  line-height: 1;
   box-shadow: var(--shadow-sm);
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
 }
 
 /* --- Detail Panel --- */

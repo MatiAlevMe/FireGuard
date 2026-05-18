@@ -3,7 +3,7 @@
  * Handles sidebar toggle, list interactions, and map click placement.
  */
 import { state, updateMetrics, saveData, showToast } from '../main.js';
-import { getMap, createHelpMarker, createPersonMarker, showFireDetail } from '../map/map.js';
+import { getMap, createHelpMarker, createPersonMarker, showFireDetail, openFirePopup, openHelpPopup, openPersonPopup } from '../map/map.js';
 
 export function initUI() {
   // Sidebar toggle (mobile)
@@ -25,12 +25,33 @@ export function initUI() {
     const map = getMap();
     if (map) {
       map.setView([lat, lng], 12);
+      setTimeout(() => openFirePopup(lat, lng), 300);
     }
     
     // Sort array identically to how it was rendered
     const sortedFires = [...state.fires].sort((a, b) => b.riskScore - a.riskScore);
     if (idx !== undefined && sortedFires[idx]) {
       showFireDetail(sortedFires[idx]);
+    }
+  });
+
+  // Focus on help point when clicking list item
+  document.addEventListener('focus-help', (e) => {
+    const { lat, lng } = e.detail;
+    const map = getMap();
+    if (map) {
+      map.setView([lat, lng], 14);
+      setTimeout(() => openHelpPopup(lat, lng), 300);
+    }
+  });
+
+  // Focus on vulnerable person when clicking list item
+  document.addEventListener('focus-person', (e) => {
+    const { lat, lng } = e.detail;
+    const map = getMap();
+    if (map) {
+      map.setView([lat, lng], 14);
+      setTimeout(() => openPersonPopup(lat, lng), 300);
     }
   });
 
@@ -109,9 +130,9 @@ export function renderHelpList() {
 
   list.innerHTML = state.helpPoints.map((hp, idx) => `
     <div class="list-item">
-      <span class="list-item-icon" style="cursor:pointer;" onclick="document.dispatchEvent(new CustomEvent('focus-fire', {detail: {lat: ${hp.lat}, lng: ${hp.lng}}}))">${typeIcons[hp.type] || '🆘'}</span>
+      <span class="list-item-icon" style="cursor:pointer;" onclick="document.dispatchEvent(new CustomEvent('focus-help', {detail: {lat: ${hp.lat}, lng: ${hp.lng}}}))">${typeIcons[hp.type] || '🆘'}</span>
       <div class="list-item-content">
-        <div class="list-item-name" style="cursor:pointer;" onclick="document.dispatchEvent(new CustomEvent('focus-fire', {detail: {lat: ${hp.lat}, lng: ${hp.lng}}}))">${hp.name}</div>
+        <div class="list-item-name" style="cursor:pointer;" onclick="document.dispatchEvent(new CustomEvent('focus-help', {detail: {lat: ${hp.lat}, lng: ${hp.lng}}}))">${hp.name}</div>
         <div class="list-item-detail">${hp.address || 'Sin dirección'}</div>
       </div>
       <span class="list-item-action" style="cursor:pointer; padding: 0.5rem;" onclick="document.dispatchEvent(new CustomEvent('delete-help', {detail: {idx: ${idx}}}))">🗑️</span>
@@ -141,9 +162,9 @@ export function renderPeopleList() {
 
   list.innerHTML = state.people.map((p, idx) => `
     <div class="list-item">
-      <span class="list-item-icon" style="cursor:pointer;" onclick="document.dispatchEvent(new CustomEvent('focus-fire', {detail: {lat: ${p.lat}, lng: ${p.lng}}}))">${statusIcons[p.status] || '👤'}</span>
+      <span class="list-item-icon" style="cursor:pointer;" onclick="document.dispatchEvent(new CustomEvent('focus-person', {detail: {lat: ${p.lat}, lng: ${p.lng}}}))">${statusIcons[p.status] || '👤'}</span>
       <div class="list-item-content">
-        <div class="list-item-name" style="cursor:pointer;" onclick="document.dispatchEvent(new CustomEvent('focus-fire', {detail: {lat: ${p.lat}, lng: ${p.lng}}}))">${p.name}</div>
+        <div class="list-item-name" style="cursor:pointer;" onclick="document.dispatchEvent(new CustomEvent('focus-person', {detail: {lat: ${p.lat}, lng: ${p.lng}}}))">${p.name}</div>
         <div class="list-item-detail">${p.address || 'Sin dirección'}${p.age ? ` | ${p.age} años` : ''}</div>
         <select onchange="document.dispatchEvent(new CustomEvent('update-person', {detail: {idx: ${idx}, status: this.value}}))" style="margin-top: 4px; font-size: 0.8rem; background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 4px; padding: 2px;">
           <option value="sin_visitar" ${p.status === 'sin_visitar' ? 'selected' : ''}>🔴 Sin visitar</option>

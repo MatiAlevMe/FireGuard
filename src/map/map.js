@@ -134,6 +134,12 @@ export function createHelpMarker(lat, lng, data) {
     </div>
   `);
 
+  marker.on('click', (e) => {
+    if (e.originalEvent) {
+      e.originalEvent.stopPropagation();
+    }
+  });
+
   return marker;
 }
 
@@ -175,6 +181,12 @@ export function createPersonMarker(lat, lng, data) {
     </div>
   `);
 
+  marker.on('click', (e) => {
+    if (e.originalEvent) {
+      e.originalEvent.stopPropagation();
+    }
+  });
+
   return marker;
 }
 
@@ -197,4 +209,31 @@ export function showFireDetail(data) {
   document.getElementById('detail-wind').textContent = `${data.windSpeed} km/h`;
   document.getElementById('detail-confidence').textContent = `${data.confidence}%`;
   document.getElementById('detail-satellite').textContent = data.satellite;
+}
+
+export function openFirePopup(lat, lng) {
+  fireLayer.eachLayer((marker) => {
+    const latlng = marker.getLatLng();
+    if (Math.abs(latlng.lat - lat) < 0.0001 && Math.abs(latlng.lng - lng) < 0.0001) {
+      marker.openPopup();
+    }
+  });
+}
+
+export function openHelpPopup(lat, lng) {
+  helpLayer.eachLayer((marker) => {
+    const latlng = marker.getLatLng();
+    if (Math.abs(latlng.lat - lat) < 0.0001 && Math.abs(latlng.lng - lng) < 0.0001) {
+      marker.openPopup();
+    }
+  });
+}
+
+export function openPersonPopup(lat, lng) {
+  peopleLayer.eachLayer((marker) => {
+    const latlng = marker.getLatLng();
+    if (Math.abs(latlng.lat - lat) < 0.0001 && Math.abs(latlng.lng - lng) < 0.0001) {
+      marker.openPopup();
+    }
+  });
 }

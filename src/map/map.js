@@ -36,10 +36,11 @@ export function initMap() {
   helpLayer = L.layerGroup().addTo(map);
   peopleLayer = L.layerGroup().addTo(map);
 
-  // Fix map sizing issues
-  setTimeout(() => {
+  // Fix map sizing issues robustly
+  const resizeObserver = new ResizeObserver(() => {
     map.invalidateSize();
-  }, 100);
+  });
+  resizeObserver.observe(mapContainer);
 
   return map;
 }

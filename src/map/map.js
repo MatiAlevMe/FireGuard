@@ -74,7 +74,7 @@ export function createFireMarker(lat, lng, data) {
 
   const icon = L.divIcon({
     className: `fire-marker fire-marker-${riskClass}`,
-    html: '🔥',
+    html: '<span class="fire-icon-inner">🔥</span>',
     iconSize: [28, 28],
     iconAnchor: [14, 14],
   });

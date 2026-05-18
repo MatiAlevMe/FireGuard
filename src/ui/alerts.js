@@ -4,7 +4,7 @@
  */
 import { state, showToast } from '../main.js';
 
-const ZAVU_API_KEY = import.meta.env.VITE_ZAVU_API_KEY || '';
+const ZAVU_API_KEY = (import.meta.env.VITE_ZAVU_API_KEY || '').replace(/['"]/g, '').trim();
 
 export function initAlerts() {
   // FAB button opens alert modal

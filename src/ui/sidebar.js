@@ -38,9 +38,6 @@ export function initUI() {
   const map = getMap();
   if (map) {
     map.on('click', (e) => {
-      // Close fire detail panel if open
-      document.getElementById('fire-detail')?.classList.add('hidden');
-
       if (state.placingMarker === 'help') {
         document.getElementById('help-lat').value = e.latlng.lat;
         document.getElementById('help-lng').value = e.latlng.lng;

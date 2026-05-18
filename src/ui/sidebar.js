@@ -3,7 +3,7 @@
  * Handles sidebar toggle, list interactions, and map click placement.
  */
 import { state, updateMetrics, saveData, showToast } from '../main.js';
-import { getMap, createHelpMarker, createPersonMarker, showFireDetail, openFirePopup, openHelpPopup, openPersonPopup } from '../map/map.js';
+import { getMap, createHelpMarker, createPersonMarker } from '../map/map.js';
 
 export function initUI() {
   // Sidebar toggle (mobile)
@@ -14,23 +14,12 @@ export function initUI() {
     sidebar.classList.toggle('open');
   });
 
-  // Close detail panel
-  document.getElementById('close-detail')?.addEventListener('click', () => {
-    document.getElementById('fire-detail')?.classList.add('hidden');
-  });
-
   // Focus on fire when clicking list item
   document.addEventListener('focus-fire', (e) => {
-    const { idx, lat, lng } = e.detail;
+    const { lat, lng } = e.detail;
     const map = getMap();
     if (map) {
       map.setView([lat, lng], 12);
-    }
-    
-    // Sort array identically to how it was rendered
-    const sortedFires = [...state.fires].sort((a, b) => b.riskScore - a.riskScore);
-    if (idx !== undefined && sortedFires[idx]) {
-      showFireDetail(sortedFires[idx]);
     }
   });
 

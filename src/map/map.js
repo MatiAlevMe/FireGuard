@@ -99,7 +99,6 @@ export function createFireMarker(lat, lng, data) {
     if (e.originalEvent) {
       e.originalEvent.stopPropagation();
     }
-    showFireDetail(marker._fireData);
   });
 
   return marker;
@@ -191,50 +190,4 @@ export function createPersonMarker(lat, lng, data) {
   return marker;
 }
 
-/**
- * Show fire detail in the side panel
- */
-export function showFireDetail(data) {
-  const panel = document.getElementById('fire-detail');
-  panel.classList.remove('hidden');
 
-  document.getElementById('detail-title').textContent = `🔥 Foco — ${data.lat.toFixed(3)}, ${data.lng.toFixed(3)}`;
-  
-  const riskEl = document.getElementById('detail-risk');
-  riskEl.textContent = `${data.riskLevel} (${data.riskScore}%)`;
-  riskEl.style.background = data.riskColor + '25';
-  riskEl.style.color = data.riskColor;
-
-  document.getElementById('detail-temp').textContent = `${data.temperature}°C`;
-  document.getElementById('detail-humidity').textContent = `${data.humidity}%`;
-  document.getElementById('detail-wind').textContent = `${data.windSpeed} km/h`;
-  document.getElementById('detail-confidence').textContent = `${data.confidence}%`;
-  document.getElementById('detail-satellite').textContent = data.satellite;
-}
-
-export function openFirePopup(lat, lng) {
-  fireLayer.eachLayer((marker) => {
-    const latlng = marker.getLatLng();
-    if (Math.abs(latlng.lat - lat) < 0.0001 && Math.abs(latlng.lng - lng) < 0.0001) {
-      marker.openPopup();
-    }
-  });
-}
-
-export function openHelpPopup(lat, lng) {
-  helpLayer.eachLayer((marker) => {
-    const latlng = marker.getLatLng();
-    if (Math.abs(latlng.lat - lat) < 0.0001 && Math.abs(latlng.lng - lng) < 0.0001) {
-      marker.openPopup();
-    }
-  });
-}
-
-export function openPersonPopup(lat, lng) {
-  peopleLayer.eachLayer((marker) => {
-    const latlng = marker.getLatLng();
-    if (Math.abs(latlng.lat - lat) < 0.0001 && Math.abs(latlng.lng - lng) < 0.0001) {
-      marker.openPopup();
-    }
-  });
-}

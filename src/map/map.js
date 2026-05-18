@@ -18,7 +18,10 @@ const CHILE_CENTER = [-33.45, -70.65]; // Santiago
 const CHILE_ZOOM = 6;
 
 export function initMap() {
-  map = L.map('map', {
+  const mapContainer = document.getElementById('map');
+  if (!mapContainer) return null;
+
+  map = L.map(mapContainer, {
     center: CHILE_CENTER,
     zoom: CHILE_ZOOM,
     zoomControl: true,

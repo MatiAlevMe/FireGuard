@@ -94,7 +94,10 @@ export function createFireMarker(lat, lng, data) {
   // Store data on marker for detail panel
   marker._fireData = { ...data, lat, lng };
 
-  marker.on('click', () => {
+  marker.on('click', (e) => {
+    if (e.originalEvent) {
+      e.originalEvent.stopPropagation();
+    }
     showFireDetail(marker._fireData);
   });
 

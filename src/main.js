@@ -3,6 +3,7 @@
  * Initializes map, data fetching, UI interactions, and offline support.
  */
 import './style.css';
+import 'leaflet/dist/leaflet.css';
 import { initMap, getMap } from './map/map.js';
 import { loadFireData } from './data/firms.js';
 import { initUI } from './ui/sidebar.js';

@@ -116,7 +116,10 @@ async function sendZavuAlert(phone, message) {
     body: JSON.stringify({
       to: phone,
       channel: 'whatsapp',
-      content: message,
+      content: {
+        type: 'text',
+        text: message,
+      },
     }),
   });
 

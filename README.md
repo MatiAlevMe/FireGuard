@@ -101,6 +101,14 @@ FireGuard está diseñado para expandir su valor público en etapas posteriores.
 
 ---
 
+## 🔗 Enlaces de interés
+- [GitHub](https://github.com/MatiAlevMe/nightstar73)
+- [Live Demo](https://nightstar73.vercel.app/)
+- [Video Demo](https://drive.google.com/file/d/1Pg0nQZeYFuNSaShqouDNbdEjrAMg3dxW/view)
+- [Presentation](https://tundra-willow-810.faces.site/8q840644wptu)
+
+---
+
 ## 📄 Licencia
 
 Este proyecto fue desarrollado bajo los términos de la Hackathon Faces y está licenciado bajo la Licencia MIT.

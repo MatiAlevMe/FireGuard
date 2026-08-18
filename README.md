@@ -10,7 +10,7 @@
 
 https://github.com/user-attachments/assets/40bc6c7a-9dd2-44b4-8dfd-9c94ea0626b3
 
-Proyecto para **hack@latam (15-17 mayo 2026)**. Finalista (top 3 / 1,240). Desarrollo individual por **nightstar73**.
+Proyecto para **hack@latam** (15-17 mayo 2026). **Finalista** (top 3 / 1,240). Desarrollo individual por **nightstar73**.
 
 ---
 

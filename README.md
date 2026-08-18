@@ -116,4 +116,6 @@ FireGuard está diseñado para expandir su valor público en etapas posteriores.
 
 ## 📄 Licencia
 
-Este proyecto fue desarrollado bajo los términos de la Hackathon Faces y está licenciado bajo la **GNU Affero General Public License v3.0 (AGPL-3.0)**.
+Este proyecto está bajo la [GNU Affero General Public License v3.0 (AGPL-3.0)](./LICENSE).
+
+Ver el archivo `LICENSE` para los términos completos. Para más información o consultas, contacta con el desarrollador en alevropulos@gmail.com

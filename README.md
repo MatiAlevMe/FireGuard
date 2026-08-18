@@ -111,6 +111,7 @@ FireGuard está diseñado para expandir su valor público en etapas posteriores.
 - 🎬 Demo: https://youtu.be/abEFfYC2CoM
 - 📊 Presentación: https://tundra-willow-810.faces.site/8q840644wptu
 - 🌐 hack@latam (2026): https://hack.indies.la/
+
 ---
 
 ## 📄 Licencia

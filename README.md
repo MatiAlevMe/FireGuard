@@ -118,4 +118,4 @@ FireGuard está diseñado para expandir su valor público en etapas posteriores.
 
 Este proyecto está bajo la [GNU Affero General Public License v3.0 (AGPL-3.0)](./LICENSE).
 
-Ver el archivo `LICENSE` para los términos completos. Para más información o consultas, contacta con el desarrollador en alevropulos@gmail.com
+Ver el archivo `LICENSE` para los términos completos. Para más información o consultas, contacta con el desarrollador en alevropulos@gmail.com.

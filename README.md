@@ -8,6 +8,10 @@
 [![Leaflet](https://img.shields.io/badge/Leaflet-199900?style=for-the-badge&logo=Leaflet&logoColor=white)](https://leafletjs.com/)
 [![PWA](https://img.shields.io/badge/PWA-5A0FC8?style=for-the-badge&logo=progressive-web-apps&logoColor=white)](https://web.dev/explore/progressive-web-apps)
 
+https://github.com/user-attachments/assets/40bc6c7a-9dd2-44b4-8dfd-9c94ea0626b3
+
+Proyecto para **hack@latam (15-17 mayo 2026)**. Finalista (top 3 / 1,240). Desarrollo individual por **nightstar73**.
+
 ---
 
 ## 📌 Resumen del Proyecto
@@ -102,11 +106,11 @@ FireGuard está diseñado para expandir su valor público en etapas posteriores.
 ---
 
 ## 🔗 Enlaces de interés
-- [GitHub](https://github.com/MatiAlevMe/nightstar73)
-- [Live Demo](https://nightstar73.vercel.app/)
-- [Video Demo](https://drive.google.com/file/d/1Pg0nQZeYFuNSaShqouDNbdEjrAMg3dxW/view)
-- [Presentation](https://tundra-willow-810.faces.site/8q840644wptu)
 
+- 🚀 Deploy: https://nightstar73.vercel.app/
+- 🎬 Demo: https://youtu.be/abEFfYC2CoM
+- 📊 Presentación: https://tundra-willow-810.faces.site/8q840644wptu
+- 🌐 hack@latam (2026): https://hack.indies.la/
 ---
 
 ## 📄 Licencia
